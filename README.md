@@ -147,7 +147,7 @@ the following parameters:
 * Reflect Input: False
 * Reflect Output: False
 
-```
+```ada
 with Interfaces; use Interfaces;
 with LibCRC.Generic_Nbit_CRCs;
 with LibCRC.Generic_Nbit_CRCs.Table_Based;
