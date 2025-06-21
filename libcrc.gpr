@@ -26,4 +26,10 @@ project Libcrc is
       for Artifacts (".") use ("share");
    end Install;
 
+   package Prove is
+      --  Use Z3 only since CVC5 and Alt-Ergo run out of memory, particularly
+      --  on package LibCRC.Predefined_Constant_Tables.
+      for Proof_Switches ("Ada") use ("--mode=prove", "--prover=z3");
+   end Prove;
+
 end Libcrc;
