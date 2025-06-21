@@ -1,0 +1,10 @@
+name = "libcrc"
+description = "Cyclic Redundancy Check (CRC) Library"
+version = "0.1.0-dev"
+
+authors = ["Daniel King"]
+maintainers = ["Daniel King <damaki.gh@gmail.com>"]
+maintainers-logins = ["damaki"]
+licenses = "Apache-2.0"
+website = ""
+tags = ["crc", "crc32", "spark", "error-checking"]
