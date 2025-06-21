@@ -6,5 +6,5 @@ authors = ["Daniel King"]
 maintainers = ["Daniel King <damaki.gh@gmail.com>"]
 maintainers-logins = ["damaki"]
 licenses = "Apache-2.0"
-website = ""
+website = "https://github.com/damaki/libcrc"
 tags = ["crc", "crc32", "spark", "error-checking"]
