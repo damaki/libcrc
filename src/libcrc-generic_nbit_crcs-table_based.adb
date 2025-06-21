@@ -26,7 +26,15 @@ package body LibCRC.Generic_Nbit_CRCs.Table_Based with SPARK_Mode is
       Initial_Value :     CRC_Type := Seed)
    is
    begin
+      pragma Warnings
+        (GNATprove, Off, "statement has no effect",
+         Reason =>
+           "Statement has effect for different generic instantiations");
+
       if CRC_Table_Reflected then
+
+         pragma Warnings (GNATprove, On, "statement has no effect");
+
          Ctx := Context (Bit_Reverse_CRC (Initial_Value));
       else
          Ctx := Context (Initial_Value);
@@ -42,8 +50,16 @@ package body LibCRC.Generic_Nbit_CRCs.Table_Based with SPARK_Mode is
       Bytes     :        Byte_Array)
    is
    begin
+      pragma Warnings
+        (GNATprove, Off, "statement has no effect",
+         Reason =>
+           "Statement has effect for different generic instantiations");
+
       if Reflect_Input then
          if CRC_Table_Reflected then
+
+            pragma Warnings (GNATprove, On, "statement has no effect");
+
             Update_Normal_Input_Reflected_Polynomial
               (CRC_Type (Ctx), Bytes, CRC_Table.all);
          else
@@ -51,7 +67,15 @@ package body LibCRC.Generic_Nbit_CRCs.Table_Based with SPARK_Mode is
               (CRC_Type (Ctx), Bytes, CRC_Table.all);
          end if;
       else
+         pragma Warnings
+           (GNATprove, Off, "statement has no effect",
+            Reason =>
+              "Statement has effect for different generic instantiations");
+
          if CRC_Table_Reflected then
+
+            pragma Warnings (GNATprove, On, "statement has no effect");
+
             Update_Reflect_Input_Reflected_Polynomial
               (CRC_Type (Ctx), Bytes, CRC_Table.all);
          else
@@ -68,8 +92,16 @@ package body LibCRC.Generic_Nbit_CRCs.Table_Based with SPARK_Mode is
    function Get_CRC (Ctx : Context) return CRC_Type is
       CRC : CRC_Type := CRC_Type (Ctx);
    begin
+      pragma Warnings
+        (GNATprove, Off, "statement has no effect",
+         Reason =>
+           "Statement has effect for different generic instantiations");
+
       if Reflect_Output then
          if not CRC_Table_Reflected then
+
+            pragma Warnings (GNATprove, On, "statement has no effect");
+
             CRC := Bit_Reverse_CRC (CRC);
          end if;
       end if;
