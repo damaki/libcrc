@@ -1,0 +1,131 @@
+on:                    # Run the workflow for each of the following event:
+  push:                # - A branch is pushed or updated.
+    branches:
+      - main
+  pull_request:        # - A pull-request is opened or updated.
+  workflow_dispatch:   # - A manual run of the workflow is requested from the GitHub web interface.
+
+jobs:
+
+  build-libcrc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: alire-project/setup-alire@v4
+        with:
+          version: 2.1.0
+
+      # Use the validation build profile to enforce static analysis and coding style.
+      - name: Build
+        run: |
+          alr build --validation
+
+  build-crctablegen:
+    needs: build-libcrc
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: alire-project/setup-alire@v4
+        with:
+          version: 2.1.0
+
+      - name: Build crctablegen
+        run: |
+          cd tools/crctablegen
+          alr build --validation
+
+  unit-tests:
+    needs: build-libcrc
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: alire-project/setup-alire@v4
+        with:
+          version: 2.1.0
+
+      - name: Build Tests
+        run: |
+          cd tests/unit_tests
+          alr build --validation -- -XREPORT_FORMAT=junit
+
+      - name: Run Tests
+        run: |
+          cd tests/unit_tests
+          mkdir reports
+          bin/run_unit_tests > reports/unit_test_results.xml
+
+      - name: Test Report
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}       # run this step even if previous step failed
+        with:
+          name: Unit Tests
+          path: tests/unit_tests/reports/*.xml
+          reporter: java-junit
+
+  interoperability-tests:
+    needs: build-libcrc
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: alire-project/setup-alire@v4
+        with:
+          version: 2.1.0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Test Dependencies
+        run: |
+          pip install -r tests/interoperability_tests/requirements.txt
+
+      - name: Build Test Driver
+        run: |
+          cd tests/interoperability_tests/driver
+          alr build --validation
+
+      - name: Run Tests
+        run: |
+          cd tests/interoperability_tests
+          pytest --junit-xml=reports/interoperability_test_results.xml
+
+      - name: Test Report
+        uses: dorny/test-reporter@v2
+        if: ${{ !cancelled() }}       # run this step even if previous step failed
+        with:
+          name: Interoperability Tests
+          path: tests/interoperability_tests/reports/*.xml
+          reporter: java-junit
+
+  proof:
+    needs: build-libcrc
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: alire-project/setup-alire@v4
+        with:
+          version: 2.1.0
+
+        # Generate libcrc_config.gpr
+      - name: Build libcrc
+        run: |
+          alr build --stop-after=generation
+
+      - name: Run GNATprove
+        run: |
+          cd proof
+          alr exec -- gnatprove -P ../libcrc.gpr -j0 --warnings=on --checks-as-errors=on

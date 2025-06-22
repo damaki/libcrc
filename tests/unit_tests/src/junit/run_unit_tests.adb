@@ -3,7 +3,7 @@
 --
 --  SPDX-License-Identifier: Apache-2.0
 --
-with AUnit.Reporter.Text;
+with AUnit.Reporter.JUnit;
 with AUnit.Run;
 
 with Test_Suites;
@@ -11,7 +11,7 @@ with Test_Suites;
 procedure Run_Unit_Tests is
    procedure Runner is new AUnit.Run.Test_Runner (Test_Suites.Suite);
 
-   Reporter : AUnit.Reporter.Text.Text_Reporter;
+   Reporter : AUnit.Reporter.JUnit.JUnit_Reporter;
 
 begin
    Runner (Reporter);
