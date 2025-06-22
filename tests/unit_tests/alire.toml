@@ -19,3 +19,6 @@ libcrc = { path = "../.." }
 
 [[depends-on]]
 aunit = "^25.0.0"
+
+[[depends-on]]
+gnatcov = "^22.0.1"
