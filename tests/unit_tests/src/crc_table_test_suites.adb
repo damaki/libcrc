@@ -15,6 +15,7 @@ with LibCRC.Predefined_Constant_Tables;
 with LibCRC.Predefined_Elaborated_Tables;
 
 with Generic_CRC_Table_Tests;
+with Reflection_Tests;
 
 package body CRC_Table_Test_Suites
 is
@@ -392,6 +393,8 @@ is
       Table_64_Poly_AD93D23594C935A9_Tests.Add_To_Suite (S.all);
       Table_64_Poly_259C84CBA6426349_Tests.Add_To_Suite (S.all);
       Table_64_Poly_AD93D23594C93659_Tests.Add_To_Suite (S.all);
+
+      Reflection_Tests.Add_To_Suite (S.all);
 
       return S;
    end Suite;
