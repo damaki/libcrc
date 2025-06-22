@@ -97,13 +97,11 @@ package body LibCRC.Generic_Nbit_CRCs.Table_Based with SPARK_Mode is
          Reason =>
            "Statement has effect for different generic instantiations");
 
-      if Reflect_Output then
-         if not CRC_Table_Reflected then
+      if Reflect_Output /= CRC_Table_Reflected then
 
-            pragma Warnings (GNATprove, On, "statement has no effect");
+         pragma Warnings (GNATprove, On, "statement has no effect");
 
-            CRC := Bit_Reverse_CRC (CRC);
-         end if;
+         CRC := Bit_Reverse_CRC (CRC);
       end if;
 
       return CRC xor Final_XOR;
