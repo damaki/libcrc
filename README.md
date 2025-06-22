@@ -109,8 +109,8 @@ with LibCRC.Generic_Nbit_CRCs.Table_Based;
 package Example is
 
    CRC_32_Reflected_Table : aliased constant CRC_32bit.CRC_Table_Type :=
-     CRC_32bit.Generate_Table_Reflected
-       (Polynomial => CRC_32bit.Bit_Reverse_CRC (16#04C1_1DB7#));
+     LibCRC.CRC_32bit.Generate_Table_Reflected
+       (Polynomial => LibCRC.CRC_32bit.Bit_Reverse_CRC (16#04C1_1DB7#));
 
    package CRC_32 is new LibCRC.CRC_32bit.Table_Based
      (Seed                => 16#FFFF_FFFF#,
@@ -141,8 +141,8 @@ with LibCRC.Generic_Nbit_CRCs.Table_Based;
 
 package Example is
 
-   CRC_32_Reflected_Table : aliased constant CRC_32bit.CRC_Table_Type :=
-     CRC_32bit.Generate_Table (Polynomial => 16#04C1_1DB7#);
+   CRC_32_Table : aliased constant CRC_32bit.CRC_Table_Type :=
+     LibCRC.CRC_32bit.Generate_Table (Polynomial => 16#04C1_1DB7#);
 
    package CRC_32 is new LibCRC.CRC_32bit.Table_Based
      (Seed                => 16#FFFF_FFFF#,
