@@ -21,6 +21,10 @@ trade offs, depending on your requirements:
 | RAM tables | `LibCRC.Predefined.RAM_Tables` | Low       | High      | Fast        |
 | Bitwise    | `LibCRC.Predefined.Bitwise`    | Low       | Low       | Slow        |
 
+As an example of the amount of memory used: on a Cortex-M4 CPU and compiled with
+GNAT FSF 15 for arm-elf, using `LibCRC.Predefined.CRC_32` adds about 100 bytes
+of code and 1 KiB of read-only data.
+
 ## License
 
 Apache-2.0
@@ -31,6 +35,20 @@ Use Alire to add a dependency on libcrc to your project:
 
 ```sh
 alr with libcrc
+```
+
+>[!TIP]
+> It is strongly recommended to add `--gc-sections` to your linker switches.
+> This can significantly reduce the overall size of the final executable, as
+> any unused parts of LibCRC (such as the big CRC tables) will be removed from
+> the final executable.
+>
+> To do this, add the following to your project's `.gpr` file:
+
+```ada
+package Linker is
+   for Switches ("Ada") use ("-Wl,--gc-sections");
+end Linker;
 ```
 
 To calculate a CRC using one of the predefined algorithms (CRC-32 in this
@@ -105,7 +123,8 @@ package Example is
 end Example;
 ```
 
-> :info: If `Reflect_Input` is `True` then it is recommended (but not mandatory)
+>[!TIP]
+> If `Reflect_Input` is `True` then it is recommended (but not mandatory)
 > to use a reflected CRC table, which is computed from the bit-reversed CRC
 > polynomial as demonstrated above.
 >
