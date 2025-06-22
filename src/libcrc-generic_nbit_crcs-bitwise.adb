@@ -100,13 +100,11 @@ is
          Reason =>
            "Statement has effect for different generic instantiations");
 
-      if Reflect_Output then
-         if not Reflected_Polynomial then
+      if Reflect_Output /= Reflected_Polynomial then
 
-            pragma Warnings (GNATprove, On, "statement has no effect");
+         pragma Warnings (GNATprove, On, "statement has no effect");
 
-            CRC := Bit_Reverse_CRC (CRC);
-         end if;
+         CRC := Bit_Reverse_CRC (CRC);
       end if;
 
       return CRC xor Final_XOR;
