@@ -2,3 +2,8 @@
 /bin/
 /alire/
 /config/
+/srctraces/
+/coverage_html/
+/coverage_xcov/
+
+srctraces_list.txt
