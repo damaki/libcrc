@@ -8,3 +8,6 @@ maintainers-logins = ["damaki"]
 licenses = "Apache-2.0"
 website = "https://github.com/damaki/libcrc"
 tags = ["crc", "crc32", "spark", "error-checking"]
+
+[[depends-on]]
+gnat = ">=14"
